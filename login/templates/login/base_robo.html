@@ -1,0 +1,95 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="shortcut icon" href="{%static 'favicon.ico' %}" />
+    <title>{% block title %}base{% endblock %}</title>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+    <link href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+
+    <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/tableExport.min.js' %}"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+
+    <link href="{% static 'css/toastr.min.css' %}" rel="stylesheet">
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+
+
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <style>
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            min-height: 75rem;
+            padding-top: 4.5rem;
+            background-color: #060505;
+            background-image: url(https://ladder.cncnet.org/images/textures/triangle-repeat.png);
+            background-repeat: repeat;
+            font-weight: 600;
+            font-size: 21px;
+        }
+    </style>
+
+    {% block navbar %}
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/DIODE/Week/Champion/RoboMaster/">DIODE签到管理系统</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample03">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/DIODE/All/Champion/RoboMaster/">主页 <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">学生</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown03">
+                        <a class="dropdown-item" href="#">1</a>
+                        <a class="dropdown-item" href="#">2</a>
+                        <a class="dropdown-item" href="#">3</a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    {% endblock %}
+    {% block content %}{% endblock %}
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <canvas class="fireworks"
+        style="position: fixed; left: 0px; top: 0px; z-index: 99999999; pointer-events: none; width: 1366px; height: 150px;"
+        width="2732" height="300">
+    </canvas>
+    <script src="{% static 'js/anime.min.js' %}"></script>
+    <script src="{% static 'js/cursor.js' %}"></script>
+</body>
+
+</html>

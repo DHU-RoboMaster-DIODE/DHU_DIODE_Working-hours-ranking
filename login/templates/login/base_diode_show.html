@@ -1,0 +1,114 @@
+{% extends 'login/base_diode.html' %}
+
+{% block tableOptions %}
+<table id="table" data-toolbar="#toolbar" data-search="true" data-show-refresh="true" data-show-toggle="true"
+    data-show-fullscreen="true" data-show-columns="true" data-show-columns-toggle-all="true" data-detail-view="true"
+    data-show-export="true" data-click-to-select="true" data-detail-formatter="detailFormatter"
+    data-loading-template="loadingTemplate" data-minimum-count-columns="2" data-pagination="false" data-id-field="Name"
+    data-url="./json">
+</table>
+{% endblock %}
+
+{% block tableinfo %}
+<script>
+    window.operateEvents = {
+        'click .remove': function (e, value, row, index) {
+            toastr.warning('别瞎搞');
+            console.log([row.name]),
+                bootbox.confirm({
+                    title: "取消签退！",
+
+                    message: "您确定取消本次签退吗？本次操作将记录您的ip以及设备号",
+                    buttons: {
+                        confirm: {
+                            label: '是',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: '否',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        console.log(result);
+                        if (result) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: "json",
+                                async: false,
+                                url: "./delete",
+                                data: JSON.stringify([row]),
+                                contentType: 'application/json',
+                                type: "POST",
+                                traditional: true,
+                                headers: { "X-CSRFToken": $('[name="csrfmiddlewaretoken"]').val() },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data.status == "success") {
+                                        toastr.success('删除数据成功');
+                                        $("#table").bootstrapTable('refresh');
+                                    }
+                                    if (data.status == "authority_check0") {
+                                        toastr.warning('权限不足');
+                                    }
+                                },
+                                fail: function (result) {
+                                    console.log(result);
+                                    toastr.warning('服务器异常');
+                                }
+                            });
+
+                            $table.bootstrapTable('remove', {
+                                field: 'name',
+                                values: [row.id]
+                            })
+                        }
+                    }
+                });
+        },
+    }
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="far fa-trash-alt"></i>',
+            '</a>  ',
+        ].join('')
+    }
+    function initTable() {
+        $table.bootstrapTable('destroy').bootstrapTable({
+            locale: $('#locale').val(),
+            theadClasses: "thead-light",//这里设置表头样式
+            classes: "table table-bordered table-striped table-dark",
+            columns: [
+                [
+                    { field: 'name', title: '姓名', align: 'center', formatter: "displaycolor" },
+                    { field: 'start', title: '签到时间', align: 'center', formatter: "displaycolor" },
+                    { field: 'end', title: '签退时间', align: 'center', formatter: "displaycolor" },
+                    { field: 'total', title: '累计时长', align: 'center', formatter: "displaycolor" },
+                    { field: 'operate', title: '操作', align: 'center', clickToSelect: false, events: window.operateEvents, formatter: operateFormatter }
+                ]
+            ]
+        })
+
+    }
+    function detailFormatter(index, row) {
+        var html = []
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+        })
+        return html.join('')
+    }
+    function displaycolor(value, row, index) {
+        console.log(row['name'])
+        if (row['name'] == '标准时长')
+            var a = '<span style="color:#FF0000">' + value + '</span>';
+        else
+            var a = '<span style="color:#fff">' + value + '</span>';
+        return a;
+    }
+    function loadingTemplate(message) {
+        return '<i class="fa fa-spinner fa-spin fa-fw fa-2x"></i>'
+        //return '<div class="ph-item"><div class="ph-picture"></div></div>'
+    }
+</script>
+{% endblock %}

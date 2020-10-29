@@ -1,0 +1,26 @@
+yum install python3
+pip3 install pymysql
+pip3 install django -i https://pypi.tuna.tsinghua.edu.cn/simple
+wget -i -c https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+yum -y install mysql80-community-release-el7-3.noarch.rpm
+yum module disable mysql
+yum -y install mysql-community-server   耗时，https://mirrors.ustc.edu.cn/mysql-ftp/Downloads/MySQL-8.0/
+				https://www.pianshen.com/article/10831059502/
+				换https://mirrors.cnnic.cn/help/centos/
+
+systemctl start  mysqld.service
+systemctl status  mysqld.service
+systemctl list-unit-files|grep enabled
+grep "password" /var/log/mysqld.log
+mysql -uroot -p
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Admin135@';
+CREATE USER 'admin'@'%' IDENTIFIED BY 'Admin135@';
+GRANT ALL ON *.* TO 'admin'@'%';
+ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'Admin135@'; 
+
+pip3 install captcha -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 install django-simple-captcha -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 install requests -i https://pypi.tuna.tsinghua.edu.cn/simple
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver 8080

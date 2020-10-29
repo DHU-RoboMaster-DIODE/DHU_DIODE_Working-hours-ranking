@@ -1,0 +1,97 @@
+{% extends 'login/base_robo.html' %}
+{% block title %}TABLE{% endblock %}
+{% block content %}
+
+<style>
+    .select,
+    #locale {
+        width: 100%;
+        color: #fff;
+    }
+
+    .update {
+        margin-right: 10px;
+    }
+</style>
+{% block charts %}{% endblock %}
+<div class="container">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            查看
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="javascript:void(0)" onclick="one()">今天</a>
+            <a class=" dropdown-item" href="javascript:void(0)" onclick="two()">昨天</a>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="three()">前天</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="week()">本周签到排行</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="all1()">历史签到排行</a>
+        </div>
+    </div>
+</div>
+{% block tableOptions %}
+{% endblock %}
+
+<script>
+    var now = new Date();
+
+    function one() {
+        var year = now.getFullYear(); //得到年份
+        var month = now.getMonth() + 1;//得到月份
+        var date = now.getDate();//得到日期
+        var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
+        window.location.href = ad;
+    }
+    function two() {
+        now.setDate(now.getDate() - 1);
+        var year = now.getFullYear(); //得到年份
+        var month = now.getMonth() + 1;//得到月份
+        var date = now.getDate();//得到日期
+        var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
+        window.location.href = ad;
+    }
+    function three() {
+        now.setDate(now.getDate() - 2);
+        var year = now.getFullYear(); //得到年份
+        var month = now.getMonth() + 1;//得到月份
+        var date = now.getDate();//得到日期
+        var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
+        window.location.href = ad;
+    }
+    function week() {
+        window.location.href = "/DIODE/Week/Champion/RoboMaster/";
+    }
+    function all1() {
+        window.location.href = "/DIODE/All/Champion/RoboMaster/";
+    }
+    toastr.options = {
+        closeButton: true,
+        debug: true,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "2000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+    var $table = $('#table')
+    var selections = []
+
+
+</script>
+{% block tableinfo %}
+{% endblock %}
+
+<script>
+    $(function () {
+        initTable()
+    })
+</script>
+
+{% endblock %}
