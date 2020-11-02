@@ -26,6 +26,8 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:void(0)" onclick="week()">本周签到排行</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="last_week()">上周签到排行</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:void(0)" onclick="all1()">历史签到排行</a>
         </div>
     </div>
@@ -40,6 +42,8 @@
         var year = now.getFullYear(); //得到年份
         var month = now.getMonth() + 1;//得到月份
         var date = now.getDate();//得到日期
+        if (month < 10) month = "0" + month;
+        if (date < 10) date = "0" + date;
         var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
         window.location.href = ad;
     }
@@ -48,6 +52,8 @@
         var year = now.getFullYear(); //得到年份
         var month = now.getMonth() + 1;//得到月份
         var date = now.getDate();//得到日期
+        if (month < 10) month = "0" + month;
+        if (date < 10) date = "0" + date;
         var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
         window.location.href = ad;
     }
@@ -56,11 +62,16 @@
         var year = now.getFullYear(); //得到年份
         var month = now.getMonth() + 1;//得到月份
         var date = now.getDate();//得到日期
+        if (month < 10) month = "0" + month;
+        if (date < 10) date = "0" + date;
         var ad = "/DIODE/" + year + "/" + month + "/" + date + "/"
         window.location.href = ad;
     }
     function week() {
         window.location.href = "/DIODE/Week/Champion/RoboMaster/";
+    }
+    function last_week() {
+        window.location.href = "/DIODE/lastWeek/Champion/RoboMaster/";
     }
     function all1() {
         window.location.href = "/DIODE/All/Champion/RoboMaster/";

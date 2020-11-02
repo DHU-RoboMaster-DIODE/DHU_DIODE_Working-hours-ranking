@@ -120,9 +120,8 @@ def getAccessToken(appid,secret):
     addr = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     data = requests.session().get(addr).text#get/post
 
-    print(data)
+    #print(data)
     data = json.loads(data)
-    print(data)
     access_token = data['access_token']
     return access_token
 
@@ -138,8 +137,6 @@ def databaseQuery(access_token,env,query):
     try:
         Object = requests.session().post(addr1,data=json.dumps(data0)).text
         jsObject = json.loads(Object)
-        print("jsObject:", jsObject)
-        print("errcode:",errcode[str(jsObject['errcode'])])
     except Exception as e:
         print("e:", e)
         pass
@@ -157,9 +154,6 @@ def databaseUpdate(access_token,env,query):
     try:
         Object = requests.session().post(addr1,data=json.dumps(data0)).text
         jsObject = json.loads(Object)
-        print("jsObject:", jsObject)
-        
-        print("errcode:",errcode[str(jsObject['errcode'])])
     except Exception as e:
         print("e:", e)
         pass
@@ -186,9 +180,13 @@ class deal(View):  # 核心! 处理url
             
             if (json == 'json'):  #这三个判断返回数据json
                 data = []
-                if (mid == 'Week'):  #周榜
-                    day = [datetime.date.today(), 0, 0, 0, 0, 0, 0]
-                    one_day = datetime.timedelta(days=1)
+                if (mid == 'Week' or mid == 'lastWeek'):  #周榜
+                    if (mid == 'Week'):
+                        day = [datetime.date.today(), 0, 0, 0, 0, 0, 0]
+                        one_day = datetime.timedelta(days=1)
+                    else:
+                        day = [datetime.date.today()-datetime.timedelta(days=7), 0, 0, 0, 0, 0, 0]
+                        one_day = datetime.timedelta(days=1)
 
                     while day[0].weekday() != 0:
                         day[0] -= one_day
@@ -228,7 +226,7 @@ class deal(View):  # 核心! 处理url
                             else:
                                 bigtotal[i] = total
                     bigtotal = sorted(bigtotal.items(), key = lambda kv:(kv[1], kv[0]),reverse=True)
-                    print(bigtotal)
+                    #print(bigtotal)
                     for i in bigtotal:
                     
                         total = i[1]
@@ -247,7 +245,8 @@ class deal(View):  # 核心! 处理url
                     return JsonResponse(data, safe=False)
                         
                     
-                elif (mid == 'All'):#总榜
+                elif (mid == 'All'):  #总榜
+                    #TODO:理论上每周的结束，需要把旧一周的记录丢进database里，然后设定查询的周数在本地数据库找数据
                     return JsonResponse([{'id':0,'name':'太费劲了','start':"有空就做？",'end':"一定不咕！",'total':"time->∞"}], safe=False)
                 else:  #日期
                     
@@ -290,7 +289,8 @@ class deal(View):  # 核心! 处理url
                             'total': total,
                         }
                         data.append(temp)
-                        j=j+1
+                        j = j + 1
+                    data.sort(key=lambda x: x['start'])
                     return JsonResponse(data, safe=False)
             
             else:#这返回网页

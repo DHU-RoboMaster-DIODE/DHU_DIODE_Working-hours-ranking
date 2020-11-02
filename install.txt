@@ -23,4 +23,4 @@ pip3 install django-simple-captcha -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip3 install requests -i https://pypi.tuna.tsinghua.edu.cn/simple
 python3 manage.py makemigrations
 python3 manage.py migrate
-python3 manage.py runserver 8080
+python3 manage.py runserver 0.0.0.0:8080
