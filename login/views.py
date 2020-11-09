@@ -230,7 +230,7 @@ class deal(View):  # 核心! 处理url
                     for i in bigtotal:
                     
                         total = i[1]
-                        if (total >= 54000):
+                        if (total > 54000):
                             continue
                         m, s = divmod(total,60)
                         h, m = divmod(m, 60)
